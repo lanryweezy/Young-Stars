@@ -10,7 +10,7 @@ export const NAV_LINKS: NavLink[] = [
   { 
     name: Page.About, 
     href: '#',
-    metaDescription: "Learn about Young Stars International School's mission, vision, and our team of the best teachers in Ado Ekiti. We are the perfect school for your child's growth."
+    metaDescription: "Learn about Young Stars International School's mission, vision, and our team of the best teachers in Ado Ekiti." 
   },
   { 
     name: Page.Academics, 

@@ -1,22 +1,19 @@
+
 import React, { useState } from 'react';
 import Card from '../common/Card';
 import Button from '../common/Button';
 import StudentIcon from '../icons/StudentIcon';
-import { studentData } from '../../data/portalData';
+import { studentData, extracurricularActivities, announcements } from '../../data/portalData';
 import DashboardLayout from '../portals/DashboardLayout';
 import Widget from '../portals/Widget';
 import GradebookIcon from '../icons/GradebookIcon';
 import AssignmentIcon from '../icons/AssignmentIcon';
 import AttendanceIcon from '../icons/AttendanceIcon';
-import { mockStudents } from '../../data/users';
-
-const getGradeColor = (grade: string) => {
-    if (grade.startsWith('A')) return 'text-brand-green';
-    if (grade.startsWith('B')) return 'text-blue-400';
-    if (grade.startsWith('C')) return 'text-yellow-400';
-    if (grade.startsWith('D')) return 'text-orange-400';
-    return 'text-red-500';
-};
+import { mockStudents, mockStaff } from '../../data/users';
+import ActivityIcon from '../icons/ActivityIcon';
+import CalendarIcon from '../icons/CalendarIcon';
+import InfoIcon from '../icons/InfoIcon';
+import LogoIcon from '../icons/LogoIcon';
 
 const StudentPortal: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,6 +21,7 @@ const StudentPortal: React.FC = () => {
 
     const currentStudent = mockStudents.find(s => s.id === studentId);
     const data = studentData[studentId];
+    const studentActivities = extracurricularActivities.filter(act => act.members.includes(studentId));
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,7 +32,12 @@ const StudentPortal: React.FC = () => {
         return (
             <div className="animate-fade-in-up pt-24 pb-16 bg-space-light/95 min-h-screen flex items-center justify-center">
                 <div className="container mx-auto px-6">
-                    <div className="max-w-md mx-auto">
+                    <div className="max-w-md mx-auto text-center">
+                         <div className="flex justify-center items-center space-x-2 mb-4">
+                            <LogoIcon />
+                            <span className="text-2xl font-orbitron font-bold text-white tracking-wider">YOUNG <span className="text-brand-green">STARS</span></span>
+                        </div>
+                        <p className="text-gray-400 mb-6">Welcome back, student! Please select your profile to continue.</p>
                         <Card className="flex flex-col items-center text-center p-8">
                             <div className="text-brand-green mb-4"><StudentIcon /></div>
                             <h1 className="font-orbitron text-3xl font-bold text-white mb-6">Student Portal</h1>
@@ -62,6 +65,24 @@ const StudentPortal: React.FC = () => {
 
     const attendancePercentage = Math.round((data.attendance.present / data.attendance.total) * 100);
 
+    const gradesBySubject = data.grades.reduce((acc, grade) => {
+        if (!acc[grade.subject]) {
+            acc[grade.subject] = [];
+        }
+        acc[grade.subject].push({ term: grade.term, score: grade.score });
+        return acc;
+    }, {} as Record<string, { term: string; score: number }[]>);
+    
+    const terms: ('First' | 'Second' | 'Third')[] = ['First', 'Second', 'Third'];
+    const termColors: Record<typeof terms[number], string> = {
+        'First': '#10B981', // brand-green
+        'Second': '#60A5FA', // blue-400
+        'Third': '#A78BFA', // purple-400
+    };
+    
+    const sortedSubjects = Object.keys(gradesBySubject).sort();
+
+
     return (
         <DashboardLayout
             userType="Student"
@@ -70,19 +91,65 @@ const StudentPortal: React.FC = () => {
         >
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Grades */}
-                <Widget title="Current Grades" icon={<GradebookIcon />} className="lg:col-span-1">
+                <Widget title="Academic Performance" icon={<GradebookIcon />} className="lg:col-span-3">
+                    <div className="w-full h-80 bg-space-dark/50 p-4 rounded-lg flex gap-4">
+                        <div className="h-full flex flex-col justify-between text-xs text-gray-400 py-2">
+                            <span>100</span>
+                            <span>75</span>
+                            <span>50</span>
+                            <span>25</span>
+                            <span className="opacity-0">0</span>
+                        </div>
+                        <div className="flex-1 h-full border-l border-b border-gray-700 flex justify-around items-end px-2 gap-4">
+                            {sortedSubjects.map(subject => (
+                                <div key={subject} className="flex-grow flex flex-col items-center h-full justify-end group relative">
+                                    <div className="flex items-end gap-1.5 h-full w-full justify-center">
+                                        {terms.map(term => {
+                                            const grade = gradesBySubject[subject].find(g => g.term === term);
+                                            const score = grade ? grade.score : 0;
+                                            return (
+                                                <div 
+                                                    key={term}
+                                                    className="w-1/3 min-w-[20px] max-w-[40px] rounded-t-md transition-all duration-300 ease-out hover:opacity-80 relative group/bar"
+                                                    style={{ height: `${score}%`, backgroundColor: score > 0 ? termColors[term] : 'transparent' }}
+                                                >
+                                                   <div className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 opacity-0 group-hover/bar:opacity-100 transition-opacity bg-space-dark text-white text-xs px-2 py-1 rounded-md whitespace-nowrap z-10 pointer-events-none">
+                                                        {term}: {score}%
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                    <span className="text-xs text-gray-300 mt-1 text-center absolute -bottom-5 w-full truncate">{subject}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                     <div className="flex justify-center gap-6 mt-6 text-sm">
+                        {terms.map(term => (
+                            <div key={term} className="flex items-center gap-2">
+                                <div className={`w-4 h-4 rounded`} style={{backgroundColor: termColors[term]}}></div>
+                                <span className="text-gray-400">{term} Term</span>
+                            </div>
+                        ))}
+                    </div>
+                </Widget>
+                
+                {/* Timetable */}
+                 <Widget title="Today's Timetable" icon={<CalendarIcon />}>
                     <ul className="space-y-3">
-                        {data.grades.map((grade, index) => (
-                            <li key={index} className="flex justify-between items-center bg-space-dark/50 p-2 rounded-md">
-                                <span className="text-gray-300">{grade.subject}</span>
-                                <span className={`font-bold ${getGradeColor(grade.grade)}`}>{grade.grade} ({grade.score}%)</span>
+                        {data.timetable.map((item, index) => (
+                            <li key={index} className={`flex items-center justify-between p-2 rounded-md ${item.subject === 'Lunch Break' ? 'bg-yellow-500/10' : 'bg-space-dark/50'}`}>
+                                <span className="font-semibold text-gray-400 text-sm">{item.time}</span>
+                                <span className="font-bold text-white">{item.subject}</span>
+                                <span className="text-xs text-gray-500">{mockStaff.find(s => s.id === item.teacherId)?.name}</span>
                             </li>
                         ))}
                     </ul>
                 </Widget>
 
                 {/* Assignments */}
-                <Widget title="Upcoming Assignments" icon={<AssignmentIcon />} className="lg:col-span-2">
+                <Widget title="Upcoming Assignments" icon={<AssignmentIcon />}>
                     <ul className="space-y-4">
                         {data.assignments.filter(a => a.status === 'Pending').map((assignment, index) => (
                             <li key={index} className="flex flex-col sm:flex-row justify-between sm:items-center bg-space-dark/50 p-3 rounded-md">
@@ -95,12 +162,15 @@ const StudentPortal: React.FC = () => {
                                 </p>
                             </li>
                         ))}
+                         {data.assignments.filter(a => a.status === 'Pending').length === 0 && (
+                            <p className="text-gray-400 text-center py-4">No upcoming assignments. Great job!</p>
+                         )}
                     </ul>
                 </Widget>
                 
                 {/* Attendance */}
-                <Widget title="Attendance Summary" icon={<AttendanceIcon />} className="lg:col-span-3">
-                     <div className="flex flex-col sm:flex-row items-center justify-around text-center gap-8">
+                <Widget title="Attendance" icon={<AttendanceIcon />}>
+                     <div className="flex flex-col items-center justify-center h-full text-center gap-4">
                         <div className="relative">
                             <svg className="w-32 h-32" viewBox="0 0 36 36">
                                 <path className="text-space-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3"></path>
@@ -110,7 +180,7 @@ const StudentPortal: React.FC = () => {
                                 <span className="text-3xl font-orbitron font-bold text-white">{attendancePercentage}%</span>
                             </div>
                         </div>
-                        <div className="flex space-x-8">
+                        <div className="flex justify-around w-full">
                             <div>
                                 <p className="text-gray-400 text-sm">Present</p>
                                 <p className="font-bold text-white text-2xl">{data.attendance.present}</p>
@@ -126,6 +196,36 @@ const StudentPortal: React.FC = () => {
                         </div>
                     </div>
                 </Widget>
+                
+                 {/* Extracurricular Activities */}
+                <Widget title="My Activities" icon={<ActivityIcon />} className="lg:col-span-2">
+                    <ul className="space-y-3">
+                        {studentActivities.map(act => (
+                            <li key={act.id} className="p-3 bg-space-dark/50 rounded-md">
+                                <p className="font-bold text-white">{act.name}</p>
+                                <p className="text-sm text-gray-400">Supervisor: {mockStaff.find(s => s.id === act.supervisor)?.name}</p>
+                                <p className="text-xs text-brand-green">{act.day} at {act.time}</p>
+                            </li>
+                        ))}
+                         {studentActivities.length === 0 && (
+                            <p className="text-gray-400 text-center py-4">You are not yet enrolled in any extracurricular activities.</p>
+                         )}
+                    </ul>
+                </Widget>
+
+                {/* Announcements */}
+                <Widget title="School Announcements" icon={<InfoIcon />} className="lg:col-span-1">
+                    <ul className="space-y-4">
+                        {announcements.map(ann => (
+                             <li key={ann.id} className="p-3 bg-space-dark/50 rounded-md">
+                                <p className="font-bold text-white text-sm">{ann.title}</p>
+                                <p className="text-xs text-gray-500 mb-1">{new Date(ann.date).toLocaleDateString()}</p>
+                                <p className="text-xs text-gray-300">{ann.content}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </Widget>
+
             </div>
         </DashboardLayout>
     );

@@ -1,5 +1,6 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Page } from './types';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './components/pages/Home';
@@ -10,35 +11,41 @@ import Gallery from './components/pages/Gallery';
 import Contact from './components/pages/Contact';
 import Calendar from './components/pages/Calendar';
 import News from './components/pages/News';
+import ArticleView from './components/pages/ArticleView';
 import Portals from './components/pages/Portals';
 import StudentPortal from './components/pages/StudentPortal';
 import ParentPortal from './components/pages/ParentPortal';
 import StaffPortal from './components/pages/StaffPortal';
 import AdminPortal from './components/pages/AdminPortal';
-import { Page } from './types';
-import WhatsAppButton from './components/common/WhatsAppButton';
+import Documents from './components/pages/Documents';
+
 import AnimatedBackground from './components/common/AnimatedBackground';
-import { NAV_LINKS } from './constants';
-import ArticleView from './components/pages/ArticleView';
+import WhatsAppButton from './components/common/WhatsAppButton';
+import Chatbot from './components/chatbot/Chatbot';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(Page.Home);
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (glowRef.current) {
-        glowRef.current.style.left = `${e.clientX}px`;
-        glowRef.current.style.top = `${e.clientY}px`;
-      }
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+    // Scroll to top on page change
+    window.scrollTo(0, 0);
+  }, [currentPage, selectedArticleId]);
+
+  const handleSelectArticle = (id: string) => {
+    setSelectedArticleId(id);
+  };
+  
+  const handleBackToNews = () => {
+    setSelectedArticleId(null);
+    setCurrentPage(Page.News);
+  }
 
   const renderPage = () => {
+    if (selectedArticleId) {
+      return <ArticleView articleId={selectedArticleId} onBack={handleBackToNews} onSelectArticle={handleSelectArticle} setCurrentPage={setCurrentPage} />;
+    }
+
     switch (currentPage) {
       case Page.Home:
         return <Home setCurrentPage={setCurrentPage} />;
@@ -50,21 +57,12 @@ const App: React.FC = () => {
         return <Admissions />;
       case Page.Gallery:
         return <Gallery />;
-       case Page.Calendar:
-        return <Calendar />;
       case Page.News:
-        return selectedArticleId ? (
-          <ArticleView
-            articleId={selectedArticleId}
-            onBack={() => setSelectedArticleId(null)}
-            onSelectArticle={setSelectedArticleId}
-            setCurrentPage={setCurrentPage}
-          />
-        ) : (
-          <News
-            onSelectArticle={setSelectedArticleId}
-          />
-        );
+        return <News onSelectArticle={handleSelectArticle} />;
+      case Page.Contact:
+        return <Contact />;
+      case Page.Calendar:
+        return <Calendar />;
       case Page.Portals:
         return <Portals setCurrentPage={setCurrentPage} />;
       case Page.StudentPortal:
@@ -75,55 +73,25 @@ const App: React.FC = () => {
         return <StaffPortal />;
       case Page.AdminPortal:
         return <AdminPortal />;
-      case Page.Contact:
-        return <Contact />;
+       case Page.Documents:
+        return <Documents />;
       default:
         return <Home setCurrentPage={setCurrentPage} />;
     }
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    if (currentPage !== Page.News) {
-      setSelectedArticleId(null);
-    }
-
-    let pageMeta = NAV_LINKS.find(link => link.name === currentPage);
-    if (!pageMeta) {
-      for (const link of NAV_LINKS) {
-        if ('dropdown' in link && link.dropdown) {
-          const dropdownItem = link.dropdown.find(item => item.page === currentPage);
-          if (dropdownItem) {
-            pageMeta = { name: dropdownItem.page, metaDescription: dropdownItem.metaDescription, href: '#' };
-            break;
-          }
-        }
-      }
-    }
-    
-    if (pageMeta) {
-      document.title = `${pageMeta.name} | Young Stars International School`;
-      const metaDescriptionTag = document.querySelector('meta[name="description"]');
-      if (metaDescriptionTag) {
-        metaDescriptionTag.setAttribute('content', pageMeta.metaDescription);
-      }
-    } else {
-      document.title = 'Young Stars International School';
-    }
-
-  }, [currentPage]);
-
   return (
-    <div className="bg-transparent text-brand-cream-dark font-nunito relative z-10">
+    <div className="bg-space-dark text-brand-cream font-sans relative">
       <AnimatedBackground />
-      <div id="aurora-glow" ref={glowRef}></div>
-      <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      <main className="min-h-screen">
-        {renderPage()}
-      </main>
-      <Footer setCurrentPage={setCurrentPage} />
+      <div className="relative z-10">
+        <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        <main>
+          {renderPage()}
+        </main>
+        <Footer setCurrentPage={setCurrentPage} />
+      </div>
       <WhatsAppButton />
+      <Chatbot />
     </div>
   );
 };

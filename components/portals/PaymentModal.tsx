@@ -5,9 +5,10 @@ import CloseIcon from '../icons/CloseIcon';
 import PaystackIcon from '../icons/PaystackIcon';
 import FlutterwaveIcon from '../icons/FlutterwaveIcon';
 import CheckmarkIcon from '../icons/CheckmarkIcon';
+import { Invoice } from '../../types';
 
 interface PaymentModalProps {
-    invoice: { id: string; description: string; amount: number; };
+    invoice: Invoice;
     studentName: string;
     onClose: () => void;
 }

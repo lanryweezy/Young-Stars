@@ -1,33 +1,42 @@
+
 import React, { useState } from 'react';
 import Card from '../common/Card';
 import Button from '../common/Button';
 import ParentIcon from '../icons/ParentIcon';
 import { mockStudents } from '../../data/users';
-import { studentData } from '../../data/portalData';
+import { studentData, announcements } from '../../data/portalData';
+import { events } from '../../data/events';
 import DashboardLayout from '../portals/DashboardLayout';
 import Widget from '../portals/Widget';
 import GradebookIcon from '../icons/GradebookIcon';
 import AttendanceIcon from '../icons/AttendanceIcon';
 import BillingIcon from '../icons/BillingIcon';
-import PaystackIcon from '../icons/PaystackIcon';
-import FlutterwaveIcon from '../icons/FlutterwaveIcon';
 import PaymentModal from '../portals/PaymentModal';
+import { Invoice } from '../../types';
+import InfoIcon from '../icons/InfoIcon';
+import CalendarIcon from '../icons/CalendarIcon';
+import LogoIcon from '../icons/LogoIcon';
 
 const ParentPortal: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [selectedChildId, setSelectedChildId] = useState('S001');
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-    const [selectedInvoice, setSelectedInvoice] = useState(null);
+    const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
 
     const parent = { name: "Mr. & Mrs. Lovelace", children: mockStudents.filter(s => s.status === 'Active') };
     const childData = studentData[selectedChildId];
+
+    const upcomingEvents = events
+        .filter(event => new Date(event.date) >= new Date())
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        .slice(0, 3);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoggedIn(true);
     };
 
-    const handleOpenPaymentModal = (invoice: any) => {
+    const handleOpenPaymentModal = (invoice: Invoice) => {
         setSelectedInvoice(invoice);
         setIsPaymentModalOpen(true);
     };
@@ -44,7 +53,12 @@ const ParentPortal: React.FC = () => {
         return (
             <div className="animate-fade-in-up pt-24 pb-16 bg-space-light/95 min-h-screen flex items-center justify-center">
                 <div className="container mx-auto px-6">
-                    <div className="max-w-md mx-auto">
+                    <div className="max-w-md mx-auto text-center">
+                         <div className="flex justify-center items-center space-x-2 mb-4">
+                            <LogoIcon />
+                            <span className="text-2xl font-orbitron font-bold text-white tracking-wider">YOUNG <span className="text-brand-green">STARS</span></span>
+                        </div>
+                        <p className="text-gray-400 mb-6">Welcome back, parent! Please log in to view your child's progress.</p>
                         <Card className="flex flex-col items-center text-center p-8">
                             <div className="text-brand-green mb-4"><ParentIcon /></div>
                             <h1 className="font-orbitron text-3xl font-bold text-white mb-6">Parent Portal</h1>
@@ -79,29 +93,23 @@ const ParentPortal: React.FC = () => {
                     </select>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Academic Overview */}
-                    <Widget title="Academic Snapshot" icon={<GradebookIcon />}>
-                        <h3 className="font-bold text-white mb-2">Latest Grades</h3>
-                        <ul className="space-y-2 mb-4">
-                            {childData.grades.slice(0, 3).map((g, i) => (
-                                <li key={i} className="flex justify-between text-sm"><span>{g.subject}</span><span className="font-semibold">{g.grade}</span></li>
-                            ))}
-                        </ul>
-                        <h3 className="font-bold text-white mb-2">Recent Assignments</h3>
+                    <Widget title="Academic Snapshot" icon={<GradebookIcon />} className="lg:col-span-2">
+                        <h3 className="font-bold text-white mb-2">Most Recent Teacher Feedback</h3>
+                        <p className="text-sm text-gray-300 italic bg-space-dark/50 p-3 rounded-md mb-4">"{childData.grades[childData.grades.length - 1].feedback}"</p>
+                        
+                        <h3 className="font-bold text-white mb-2">Latest Grades (Third Term)</h3>
                         <ul className="space-y-2">
-                             {childData.assignments.slice(0, 2).map((a, i) => (
-                                <li key={i} className="flex justify-between text-sm">
-                                  <span>{a.title}</span>
-                                  <span className={`font-semibold ${a.status === 'Submitted' ? 'text-brand-green' : 'text-yellow-400'}`}>{a.status}</span>
-                                </li>
+                            {childData.grades.filter(g => g.term === 'Third').slice(0, 4).map((g, i) => (
+                                <li key={i} className="flex justify-between text-sm"><span>{g.subject}</span><span className="font-semibold">{g.grade} ({g.score}%)</span></li>
                             ))}
                         </ul>
                     </Widget>
 
                     {/* Attendance */}
                     <Widget title="Attendance" icon={<AttendanceIcon />}>
-                         <div className="flex items-center justify-around text-center">
+                         <div className="flex flex-col items-center justify-center h-full text-center gap-2">
                             <div className="relative">
                                 <svg className="w-24 h-24" viewBox="0 0 36 36">
                                     <path className="text-space-dark" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3"></path>
@@ -119,7 +127,7 @@ const ParentPortal: React.FC = () => {
                     </Widget>
                     
                     {/* Billing */}
-                    <Widget title="Billing & Payments" icon={<BillingIcon />} className="lg:col-span-2">
+                    <Widget title="Billing & Payments" icon={<BillingIcon />} className="lg:col-span-3">
                          <div className="overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead>
@@ -146,6 +154,31 @@ const ParentPortal: React.FC = () => {
                                 </tbody>
                             </table>
                         </div>
+                    </Widget>
+
+                     {/* Announcements */}
+                    <Widget title="School Announcements" icon={<InfoIcon />} className="lg:col-span-2">
+                        <ul className="space-y-4">
+                            {announcements.map(ann => (
+                                <li key={ann.id} className="p-3 bg-space-dark/50 rounded-md">
+                                    <p className="font-bold text-white text-sm">{ann.title}</p>
+                                    <p className="text-xs text-gray-500 mb-1">{new Date(ann.date).toLocaleDateString()}</p>
+                                    <p className="text-xs text-gray-300">{ann.content}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </Widget>
+                    
+                     {/* Upcoming Events */}
+                    <Widget title="Upcoming Events" icon={<CalendarIcon />}>
+                        <ul className="space-y-3">
+                            {upcomingEvents.map(event => (
+                                <li key={event.title} className="p-2 bg-space-dark/50 rounded-md">
+                                    <p className="font-bold text-white text-sm">{event.title}</p>
+                                    <p className="text-xs text-brand-green">{new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+                                </li>
+                            ))}
+                        </ul>
                     </Widget>
                 </div>
             </DashboardLayout>

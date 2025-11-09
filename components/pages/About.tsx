@@ -1,13 +1,12 @@
-
 import React from 'react';
 import Card from '../common/Card';
 
 const About: React.FC = () => {
   const staff = [
-    { name: 'Dr. Evelyn Adebayo', role: 'Head of School', image: 'https://picsum.photos/seed/head/400/400' },
-    { name: 'Mr. Tunde Okoro', role: 'Head of STEM', image: 'https://picsum.photos/seed/stem/400/400' },
-    { name: 'Mrs. Aisha Bello', role: 'Head of Arts & Creativity', image: 'https://picsum.photos/seed/arts/400/400' },
-    { name: 'Mrs. Funke Adeyemi', role: 'Lead Innovator (Nursery)', image: 'https://picsum.photos/seed/innovator/400/400' },
+    { name: 'Dr. Evelyn Adebayo', role: 'Head of School', image: 'https://i.pravatar.cc/400?u=evelyn_adebayo' },
+    { name: 'Mr. Tunde Okoro', role: 'Head of STEM', image: 'https://i.pravatar.cc/400?u=tunde_okoro' },
+    { name: 'Mrs. Aisha Bello', role: 'Head of Arts & Creativity', image: 'https://i.pravatar.cc/400?u=aisha_bello' },
+    { name: 'Mrs. Funke Adeyemi', role: 'Lead Innovator (Nursery)', image: 'https://i.pravatar.cc/400?u=funke_adeyemi' },
   ];
 
   const achievements = [
