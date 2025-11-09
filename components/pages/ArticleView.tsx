@@ -6,13 +6,23 @@ import Button from '../common/Button';
 import CalendarIcon from '../icons/CalendarIcon';
 import AuthorIcon from '../icons/AuthorIcon';
 import ArrowLeftIcon from '../icons/ArrowLeftIcon';
-import { Article } from '../../types';
+import { mockStaff, mockStudents } from '../../data/users';
 
 interface ArticleViewProps {
   articleId: string;
   onBack: () => void;
   onSelectArticle: (id: string) => void;
   setCurrentPage: (page: Page) => void;
+}
+
+const getAuthorDetails = (authorId: string) => {
+    const staff = mockStaff.find(s => s.id === authorId);
+    if (staff) return { name: staff.name, role: staff.role };
+
+    const student = mockStudents.find(s => s.id === authorId);
+    if (student) return { name: student.name, role: student.prefectRole || 'Student' };
+
+    return { name: 'Anonymous', role: 'Contributor' };
 }
 
 // A simple component to render basic markdown
@@ -53,6 +63,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ articleId, onBack, onSelectAr
         );
     }
     
+    const author = getAuthorDetails(article.authorId);
     const relatedArticles = articles.filter(a => a.id !== articleId).slice(0, 2);
 
     return (
@@ -71,7 +82,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ articleId, onBack, onSelectAr
                             <p className="text-brand-green font-bold mb-2">{article.category}</p>
                             <h1 className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-4">{article.title}</h1>
                             <div className="text-sm text-gray-400 mb-8 flex items-center space-x-6">
-                                <span className="flex items-center gap-2"><AuthorIcon /> {article.author}</span>
+                                <span className="flex items-center gap-2"><AuthorIcon /> <div>{author.name} <span className="text-gray-500">({author.role})</span></div></span>
                                 <span className="flex items-center gap-2"><CalendarIcon /> {new Date(article.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                             </div>
 
@@ -86,8 +97,10 @@ const ArticleView: React.FC<ArticleViewProps> = ({ articleId, onBack, onSelectAr
                             <h3 className="text-2xl font-orbitron font-bold text-white text-center mb-8">You Might Also Like</h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 {relatedArticles.map(rel => (
-                                    <Card key={rel.id} className="p-0 overflow-hidden cursor-pointer" onClick={() => onSelectArticle(rel.id)}>
-                                        <img src={rel.image} alt={rel.title} className="w-full h-48 object-cover"/>
+                                    <Card key={rel.id} className="p-0 overflow-hidden cursor-pointer group" onClick={() => onSelectArticle(rel.id)}>
+                                        <div className="overflow-hidden">
+                                          <img src={rel.image} alt={rel.title} className="w-full h-48 object-cover transform group-hover:scale-105 transition-transform duration-300"/>
+                                        </div>
                                         <div className="p-6">
                                             <p className="text-brand-green font-bold text-sm mb-2">{rel.category}</p>
                                             <h4 className="font-orbitron text-xl font-bold text-white">{rel.title}</h4>

@@ -4,7 +4,7 @@ export const articles: Article[] = [
   {
     id: 'ys-robotics-champions-2024',
     title: 'Young Stars Crowned National Junior Robotics Champions!',
-    author: 'Dr. Evelyn Adebayo',
+    authorId: 'T01', // Dr. Evelyn Adebayo
     date: '2024-08-15',
     category: 'Achievement',
     image: 'https://picsum.photos/seed/robotics-win/1200/800',
@@ -32,7 +32,7 @@ We extend our heartfelt congratulations to the entire Starbots team and their me
   {
     id: 'why-play-based-learning-matters',
     title: 'The Power of Play: Why It\'s the Core of Our Nursery Curriculum',
-    author: 'Mrs. Funke Adeyemi',
+    authorId: 'T05', // Mrs. Funke Adeyemi
     date: '2024-07-22',
     category: 'Education',
     image: 'https://picsum.photos/seed/play-learn/1200/800',
@@ -59,7 +59,7 @@ Research consistently shows that a strong foundation in early childhood educatio
   {
     id: 'annual-cultural-day-2024',
     title: 'A Vibrant Celebration: Highlights from Our Annual Cultural Day',
-    author: 'Mrs. Aisha Bello',
+    authorId: 'T03', // Mrs. Aisha Bello
     date: '2024-06-10',
     category: 'School Event',
     image: 'https://picsum.photos/seed/cultural-day/1200/800',
@@ -79,6 +79,28 @@ The day was packed with exciting activities that highlighted different cultures 
 *   **Art & Craft Exhibition:** The creative arts studio displayed beautiful student-made crafts inspired by different cultural traditions.
 
 Events like our Cultural Day are a vital part of our commitment to holistic education. They provide a wonderful opportunity for our students to learn about and appreciate the diversity of the world around them, fostering respect, understanding, and a sense of global citizenship.
+`
+  },
+   {
+    id: 'a-message-from-the-head-girl',
+    title: 'A Message From The Head Girl: Embracing Leadership',
+    authorId: 'S006', // Chiamaka Okoro (Head Girl)
+    date: '2024-09-05',
+    category: 'Student Life',
+    image: 'https://picsum.photos/seed/head-girl/1200/800',
+    summary: 'Our new Head Girl, Chiamaka Okoro, shares her thoughts on the upcoming school year and the importance of student leadership.',
+    content: `
+# Hello, Young Stars!
+
+It is with great honor and excitement that I step into the role of Head Girl for this academic session. I want to thank our teachers for entrusting me with this responsibility, and my fellow students for their support.
+
+## My Vision for Our School
+
+This year, I want to focus on two main things: **community** and **innovation**. I believe that every student has a voice that deserves to be heard. I plan to work closely with the student council to introduce new clubs and initiatives that reflect our diverse interests, from a coding club to a creative writing workshop.
+
+I also want to encourage everyone to be leaders in their own way. Leadership isn't just about a title; it's about helping a friend who is struggling, keeping our school environment clean, and always trying our best in our studies.
+
+Let's make this year the best one yet. Let's learn, grow, and shine together!
 `
   },
 ];
