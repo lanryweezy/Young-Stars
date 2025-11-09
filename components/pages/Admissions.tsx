@@ -1,14 +1,17 @@
+
 import React, { useState } from 'react';
 import Button from '../common/Button';
 import Card from '../common/Card';
 import SubmissionSuccess from '../common/SubmissionSuccess';
+import { useToast } from '../../contexts/ToastContext';
 
 const Admissions: React.FC = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const { addToast } = useToast();
     
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        alert('Thank you for your application! We will review it and be in touch shortly.');
+        addToast('Thank you for your application! We will be in touch shortly.');
         setIsSubmitted(true);
     };
 

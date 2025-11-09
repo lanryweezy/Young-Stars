@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Button from '../common/Button';
 import Card from '../common/Card';
@@ -5,12 +6,15 @@ import LocationIcon from '../icons/LocationIcon';
 import PhoneIcon from '../icons/PhoneIcon';
 import EmailIcon from '../icons/EmailIcon';
 import WhatsAppIcon from '../icons/WhatsAppIcon';
+import { useToast } from '../../contexts/ToastContext';
 
 const Contact: React.FC = () => {
+    const { addToast } = useToast();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        alert('Thank you for your message! We will get back to you soon.');
+        addToast('Thank you for your message! We will get back to you soon.');
+        (e.target as HTMLFormElement).reset();
     };
 
     const contactDetails = [

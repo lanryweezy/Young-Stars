@@ -22,6 +22,7 @@ import Documents from './components/pages/Documents';
 import AnimatedBackground from './components/common/AnimatedBackground';
 import WhatsAppButton from './components/common/WhatsAppButton';
 import Chatbot from './components/chatbot/Chatbot';
+import { ToastProvider } from './contexts/ToastContext';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(Page.Home);
@@ -81,18 +82,20 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="bg-space-dark text-brand-cream font-sans relative">
-      <AnimatedBackground />
-      <div className="relative z-10">
-        <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
-        <main>
-          {renderPage()}
-        </main>
-        <Footer setCurrentPage={setCurrentPage} />
+    <ToastProvider>
+      <div className="bg-space-dark text-brand-cream font-sans relative">
+        <AnimatedBackground />
+        <div className="relative z-10">
+          <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
+          <main>
+            {renderPage()}
+          </main>
+          <Footer setCurrentPage={setCurrentPage} />
+        </div>
+        <WhatsAppButton />
+        <Chatbot />
       </div>
-      <WhatsAppButton />
-      <Chatbot />
-    </div>
+    </ToastProvider>
   );
 };
 
