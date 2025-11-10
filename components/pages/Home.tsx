@@ -50,6 +50,7 @@ const Home: React.FC<HomeProps> = ({ setCurrentPage }) => {
         <div className="animate-fade-in-up">
             {/* Hero Section */}
             <section className="relative h-screen flex items-center justify-center text-center overflow-hidden">
+                <img src="/assets/hero-image.jpg" alt="Young Stars International School" className="absolute inset-0 w-full h-full object-cover"/>
                 <div className="absolute inset-0 bg-space-dark/70"></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-space-dark/95 via-transparent"></div>
 
