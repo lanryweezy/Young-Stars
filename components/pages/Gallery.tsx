@@ -1,11 +1,27 @@
-// components/pages/Gallery.tsx
+import React, { useState } from 'react';
+import GalleryModal from '../common/GalleryModal';
+import { galleryImages as images } from '../../data/galleryData';
 
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import { Page, navLinks } from '../../constants';
-import { schoolName } from '../../data/schoolData';
-import PageBanner from '../common/PageBanner';
-import { galleryData } from '../../data/galleryData';
+const Gallery: React.FC = () => {
+
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+
+    const openModal = (index: number) => {
+        setSelectedImageIndex(index);
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+        setSelectedImageIndex(null);
+    };
+
+    const showNextImage = () => {
+        if (selectedImageIndex !== null) {
+            setSelectedImageIndex((prevIndex) => (prevIndex! + 1) % images.length);
+        }
+    };
 
 const Gallery: React.FC = () => {
     const pageInfo = navLinks.find(link => link.href === Page.Gallery);
