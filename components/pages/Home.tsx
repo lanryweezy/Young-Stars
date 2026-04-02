@@ -151,17 +151,17 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
-            {/* CTA Section */}
-            <section className="py-20 bg-space-light/95">
-                <div className="container mx-auto px-6 text-center">
-                    <div className="bg-gradient-to-br from-space-dark/90 via-space-dark/80 to-brand-green/40 backdrop-blur-sm py-16 rounded-2xl">
-                        <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-4">Ready to Join the Future?</h2>
-                        <p className="text-lg text-brand-cream-dark max-w-2xl mx-auto mb-8">
-                            Explore our admissions process and give your child the gift of a world-class, future-focused education.
-                        </p>
-                        <Button onClick={() => setCurrentPage(Page.Admissions)} size="lg">
-                            Start Your Application
-                        </Button>
+            {/* Gallery Preview Section */}
+            <section className="py-16 bg-brand-blue">
+                <div className="container mx-auto px-4 text-center">
+                    <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-4">Gallery Preview</h2>
+                    <p className="text-lg text-brand-cream-dark max-w-2xl mx-auto mb-12">A snapshot of the vibrant life at lanrystars.</p>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {galleryPreview.map((item, index) => (
+                            <div key={index} className="overflow-hidden rounded-lg shadow-lg">
+                                <img src={item.src} alt={item.alt} className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300" />
+                            </div>
+                        ))}
                     </div>
                     <Link href={Page.Gallery} className="mt-8 inline-block bg-brand-green text-white font-bold py-3 px-8 rounded-lg hover:bg-brand-green-dark transition-transform duration-300 transform hover:scale-105">
                         View Full Gallery

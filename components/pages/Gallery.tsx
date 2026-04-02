@@ -1,3 +1,11 @@
+// components/pages/Gallery.tsx
+
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { Page, navLinks } from '../../constants';
+import { schoolName } from '../../data/schoolData';
+import PageBanner from '../common/PageBanner';
+import { galleryData } from '../../data/galleryData';
 import React, { useState } from 'react';
 import GalleryModal from '../common/GalleryModal';
 import { galleryImages as images } from '../../data/galleryData';
