@@ -1,22 +1,27 @@
 // components/pages/Home.tsx
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
-import { Page, navLinks } from '../../constants';
-import { schoolName } from '../../data/schoolData';
-import { Link } from '../../router';
-import { galleryData } from '../../data/galleryData';
+import { Page } from '../../types';
+import Button from '../common/Button';
+import Card from '../common/Card';
+import ChevronRightIcon from '../icons/ChevronRightIcon';
+import { events } from '../../data/events';
+import CalendarIcon from '../icons/CalendarIcon';
+import HolidayIcon from '../icons/HolidayIcon';
+import EventIcon from '../icons/EventIcon';
+import { galleryImages } from '../../data/galleryData';
 
 const Home: React.FC = () => {
     const pageInfo = navLinks.find(link => link.href === Page.Home);
     const galleryPreview = galleryData.slice(0, 4);
 
     return (
-        <div>
-            <Helmet>
-                <title>{`Home | ${schoolName}`}</title>
-                <meta name="description" content={pageInfo?.metaDescription} />
-            </Helmet>
+        <div className="animate-fade-in-up">
+            {/* Hero Section */}
+            <section className="relative h-screen flex items-center justify-center text-center overflow-hidden">
+                <img src="/assets/hero-image.jpg" alt="Young Stars International School" className="absolute inset-0 w-full h-full object-cover"/>
+                <div className="absolute inset-0 bg-space-dark/70"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-space-dark/95 via-transparent"></div>
 
             {/* Hero Section */}
             <section className="relative h-[60vh] md:h-[80vh] text-white flex items-center justify-center text-center">
@@ -89,6 +94,60 @@ const Home: React.FC = () => {
                             <img src="/assets/working-student.jpg" alt="Student working on a project" className="rounded-lg shadow-lg w-full h-auto object-cover" />
                         </div>
                     </div>
+                </div>
+            </section>
+
+            {/* Our Life at Young Stars Section */}
+            <section className="py-20 bg-space-dark/95">
+                <div className="container mx-auto px-6">
+                    <div className="text-center">
+                        <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-4">Our Life at Young Stars</h2>
+                        <p className="text-lg text-brand-cream-dark max-w-2xl mx-auto mb-12">Beyond the classroom, our students engage in a vibrant school life.</p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div className="rounded-2xl overflow-hidden shadow-lg shadow-black/30">
+                            <img src="/assets/sports.jpg" alt="Students engaged in sports" className="w-full h-auto object-cover"/>
+                        </div>
+                        <div className="text-left">
+                            <h3 className="text-2xl font-orbitron font-bold text-white mb-4">Athletics and Team Sports</h3>
+                            <p className="text-gray-400 mb-4">We believe in the power of sports to build character, discipline, and teamwork. Our students have opportunities to participate in a variety of sports, fostering a spirit of healthy competition and physical fitness.</p>
+                            <Button onClick={() => setCurrentPage(Page.Academics)} variant="secondary">
+                                Explore Our Curriculum
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-12">
+                        <div className="text-left md:order-2">
+                            <h3 className="text-2xl font-orbitron font-bold text-white mb-4">Hands-On Learning</h3>
+                            <p className="text-gray-400 mb-4">Our curriculum is designed to be interactive and engaging. Students get to apply what they learn in the classroom to real-world projects, from building robots to creating art.</p>
+                            <Button onClick={() => setCurrentPage(Page.Admissions)} variant="secondary">
+                                Join Our School
+                            </Button>
+                        </div>
+                        <div className="rounded-2xl overflow-hidden shadow-lg shadow-black/30 md:order-1">
+                            <img src="/assets/working-student.jpg" alt="A student working on a project" className="w-full h-auto object-cover"/>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Gallery Preview Section */}
+            <section className="py-20 bg-space-light/95">
+                <div className="container mx-auto px-6 text-center">
+                    <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-4">Gallery Preview</h2>
+                    <p className="text-lg text-brand-cream-dark max-w-2xl mx-auto mb-12">A snapshot of the vibrant life at Young Stars International School.</p>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                        {
+                            [...galleryImages].slice(0, 4).map((image, index) => (
+                                <div key={index} className="overflow-hidden rounded-2xl shadow-lg shadow-black/30">
+                                    <img src={image.src} alt={image.alt} className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"/>
+                                </div>
+                            ))
+                        }
+                    </div>
+                    <Button onClick={() => setCurrentPage(Page.Gallery)} size="lg">
+                        View Full Gallery
+                    </Button>
                 </div>
             </section>
 
