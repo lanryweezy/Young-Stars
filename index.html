@@ -1,61 +1,145 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/assets/hero-image.jpg" />
-    <link rel="apple-touch-icon" href="/assets/hero-image.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Young Stars International School</title>
+    <meta name="description" content="Searching for the top school in Ado Ekiti? Discover Young Stars International School, the best and most affordable school for your child. We have the best teachers and a future-ready curriculum, making us the perfect school for your family. Whether you're looking for the most expensive school with premium facilities or an affordable school with high standards, Young Stars is your number one choice." />
+    <meta name="keywords" content="top school Ado Ekiti, best school Ado Ekiti, affordable school Ado Ekiti, most expensive school Ado Ekiti, perfect school Ado Ekiti, school with best teachers Ado Ekiti, nursery school Ado Ekiti, primary school Ado Ekiti, Young Stars International School" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <title>lanrystars | Best Nursery & Primary School in Ado Ekiti</title>
-    <meta name="description" content="Looking for the best school in Ado Ekiti? lanrystars is the top-rated nursery and primary school offering a future-ready curriculum, STEM, and robotics. Join the most affordable and innovative school in Ekiti State today!" />
-    <meta name="keywords" content="best school in Ado Ekiti, top schools in Ado Ekiti, nursery school Ado Ekiti, primary school Ado Ekiti, affordable schools in Ado Ekiti, private schools in Ado Ekiti, STEM education Ado Ekiti, robotics for kids Ado Ekiti, lanrystars international school" />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.lanrystars.com/" />
-    <meta property="og:title" content="lanrystars | Best Nursery & Primary School in Ado Ekiti" />
-    <meta property="og:description" content="The most innovative nursery and primary school in Ado Ekiti. Nurturing the leaders of tomorrow." />
-    <meta property="og:image" content="https://www.lanrystars.com/assets/hero-image.jpg" />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://www.lanrystars.com/" />
-    <meta property="twitter:title" content="lanrystars | Best Nursery & Primary School in Ado Ekiti" />
-    <meta property="twitter:description" content="The most innovative nursery and primary school in Ado Ekiti. Nurturing the leaders of tomorrow." />
-    <meta property="twitter:image" content="https://www.lanrystars.com/assets/hero-image.jpg" />
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "School",
-        "name": "lanrystars International School",
-        "url": "https://www.lanrystars.com",
-        "logo": "https://www.lanrystars.com/logo.png",
-        "description": "The best nursery and primary school in Ado Ekiti, offering a tech-driven curriculum including STEM and robotics.",
-        "sameAs": [
-          "https://www.facebook.com/lanrystars",
-          "https://www.twitter.com/lanrystars",
-          "https://www.instagram.com/lanrystars"
-        ],
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Zone 5, Road 8 Olorunsogo Street",
-          "addressLocality": "Ado Ekiti",
-          "addressRegion": "Ekiti State",
-          "postalCode": "360102",
-          "addressCountry": "NG"
-        },
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "telephone": "+234-806-373-1163",
-          "contactType": "admissions"
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Nunito:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'butter-yellow': '#FFFACD',
+              'brand-green': {
+                'light': '#6EE7B7',
+                'DEFAULT': '#10B981',
+                'dark': '#047857',
+              },
+              'brand-cream': {
+                'DEFAULT': '#FEFDF6',
+                'dark': '#F5F5DC'
+              },
+              'space-dark': '#0D1117',
+              'space-light': '#161B22',
+            },
+            fontFamily: {
+              'poppins': ['Poppins', 'sans-serif'],
+              'orbitron': ['Orbitron', 'sans-serif'],
+              'nunito': ['Nunito', 'sans-serif'],
+            },
+            animation: {
+              'float': 'float 6s ease-in-out infinite',
+              'float-reverse': 'float-reverse 8s ease-in-out infinite',
+              'fade-in-up': 'fade-in-up 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards',
+              'pop-in': 'pop-in 0.5s ease-out forwards',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                '50%': { transform: 'translateY(-20px) rotate(10deg)' },
+              },
+              'float-reverse': {
+                '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                '50%': { transform: 'translateY(20px) rotate(-10deg)' },
+              },
+              'fade-in-up': {
+                '0%': {
+                    opacity: '0',
+                    transform: 'translateY(30px)'
+                },
+                '100%': {
+                    opacity: '1',
+                    transform: 'translateY(0)'
+                },
+              },
+              'pop-in': {
+                '0%': { transform: 'scale(0.5)', opacity: '0' },
+                '60%': { transform: 'scale(1.1)', opacity: '1' },
+                '100%': { transform: 'scale(1)', opacity: '1' },
+              },
+            }
+          }
         }
       }
-      </script>
-  </head>
+    </script>
+    <style>
+      #cosmos-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-color: #0D1117;
+      }
+      #aurora-glow {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        width: 700px;
+        height: 700px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(110, 231, 183, 0.1) 0%, rgba(110, 231, 183, 0) 60%);
+        transform: translate(-50%, -50%);
+        transition: opacity 0.4s ease-out;
+        opacity: 0;
+      }
+      body:hover #aurora-glow {
+        opacity: 1;
+      }
+      .card-glow-container {
+        transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+      }
+      .card-glow-container:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 0 30px rgba(110, 231, 183, 0.2);
+      }
+      .button-glow-effect {
+        box-shadow: 0 0 0 0 rgba(110, 231, 183, 0.7);
+        transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+      }
+      .button-glow-effect:hover {
+        box-shadow: 0 0 25px 5px rgba(110, 231, 183, 0.3);
+      }
+    </style>
+     <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "School",
+      "name": "Young Stars International School",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Zone 5, Road 8 Olorunsogo Street",
+        "addressLocality": "Ado Ekiti",
+        "postalCode": "360102",
+        "addressCountry": "NG"
+      },
+      "telephone": "+2348063731163",
+      "email": "info@youngstars.ng",
+      "url": "https://youngstars.ng",
+      "description": "The top-rated, best, and most affordable nursery and primary school in Ado Ekiti with the best teachers. We offer a future-ready curriculum in a nurturing environment, making us the perfect school for your child.",
+      "keywords": "top school Ado Ekiti, best school Ado Ekiti, affordable school Ado Ekiti, school with best teachers Ado Ekiti, nursery school Ado Ekiti, primary school Ado Ekiti"
+    }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^18.2.0/",
+    "react/": "https://aistudiocdn.com/react@^18.2.0/",
+    "react": "https://aistudiocdn.com/react@^18.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.0"
+  }
+}
+</script>
+</head>
   <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

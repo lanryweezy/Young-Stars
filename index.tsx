@@ -1,10 +1,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HelmetProvider } from 'react-helmet-async';
-import { ToastProvider } from './contexts/ToastContext';
 import App from './App';
-import './index.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -14,10 +11,6 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <HelmetProvider>
-      <ToastProvider>
-        <App />
-      </ToastProvider>
-    </HelmetProvider>
+    <App />
   </React.StrictMode>
 );
