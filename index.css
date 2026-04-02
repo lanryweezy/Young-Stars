@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-blue-dark text-white;
+  }
+}
+
+.button-glow-effect {
+  @apply relative overflow-hidden;
+}
+
+.button-glow-effect::after {
+  content: '';
+  @apply absolute inset-0 opacity-0 transition-opacity duration-300 bg-white/20;
+}
+
+.button-glow-effect:hover::after {
+  @apply opacity-100;
+}
+
+.card-glow-container {
+  @apply transition-all duration-300;
+}
+
+.card-glow-container:hover {
+  @apply border-brand-green/40 shadow-brand-green/10;
+}

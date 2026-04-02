@@ -1,7 +1,7 @@
 // components/pages/Admissions.tsx
 
 import React, { useState } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Page, navLinks } from '../../constants';
 import { schoolName } from '../../data/schoolData';
 import PageBanner from '../common/PageBanner';
