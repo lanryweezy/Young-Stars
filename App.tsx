@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Page } from './types';
+import { NAV_LINKS } from './constants';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './components/pages/Home';
@@ -31,6 +32,41 @@ const App: React.FC = () => {
   useEffect(() => {
     // Scroll to top on page change
     window.scrollTo(0, 0);
+
+    // Update Meta Tags for SEO
+    const updateMetaTags = () => {
+      let pageData = NAV_LINKS.find(link => link.name === currentPage);
+
+      // Handle nested portal links
+      if (!pageData && currentPage.toString().toLowerCase().includes('portal')) {
+        const portalsLink = NAV_LINKS.find(link => link.name === Page.Portals);
+        if (portalsLink?.dropdown) {
+          pageData = portalsLink.dropdown.find(d => d.page === currentPage) as any;
+        }
+      }
+
+      const description = pageData?.metaDescription || "Young Stars International School - The best choice for nursery and primary education in Ado Ekiti.";
+      const title = `Young Stars - ${currentPage}${selectedArticleId ? ' | Article' : ''}`;
+
+      document.title = title;
+
+      let metaDescription = document.querySelector('meta[name="description"]');
+      if (!metaDescription) {
+        metaDescription = document.createElement('meta');
+        metaDescription.setAttribute('name', 'description');
+        document.head.appendChild(metaDescription);
+      }
+      metaDescription.setAttribute('content', description);
+
+      // Update OpenGraph tags if they exist
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', title);
+
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      if (ogDescription) ogDescription.setAttribute('content', description);
+    };
+
+    updateMetaTags();
   }, [currentPage, selectedArticleId]);
 
   const handleSelectArticle = (id: string) => {
